@@ -4,22 +4,22 @@ from django_countries.fields import CountryField
 
 
 class Category(models.Model):
-    name = models.CharField(255)
+    name = models.CharField(max_length=255)
 
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(User, related_name='profile')
-    title = models.CharField(255)
+    user = models.OneToOneField(User, related_name='profile')
+    title = models.CharField(max_length=255)
     country = CountryField()
+    avatar = models.URLField(null=True, blank=True)
 
 
 class Presentation(models.Model):
     owner = models.ForeignKey(User)
-    name = models.CharField(255)
+    name = models.CharField(max_length=255)
     category = models.ForeignKey(Category)
 
     next = models.ForeignKey('self', null=True, blank=True)
-    prev = models.ForeignKey('self', null=True, blank=True)
 
     view_count = models.IntegerField(default=0)
     like_count = models.IntegerField(default=0)

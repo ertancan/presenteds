@@ -1,0 +1,15 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{% block title %}Presenteds{% endblock %}</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+    <script src="{% static "semantic_ui/semantic.js"%}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "semantic_ui/semantic.css" %}">
+
+</head>
+<body>
+{% block body %}{% endblock %}
+</body>
+</html>
