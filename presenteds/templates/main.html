@@ -6,10 +6,113 @@
     <title>{% block title %}Presenteds{% endblock %}</title>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
     <script src="{% static "semantic_ui/semantic.js"%}"></script>
+    <script src="{% static "js/jquery.cookie.js"%}"></script>
     <link rel="stylesheet" type="text/css" href="{% static "semantic_ui/semantic.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}">
 
 </head>
-<body>
-{% block body %}{% endblock %}
+<body class="pushable">
+{% block topmenu %}
+    <div class="ui vertical segment ">
+        <div class="ui right aligned segment">
+            {% if user.is_authenticated %}
+                <div class="ui labeled icon button" id="logout-top-button">
+                    <i class="sign out icon"></i>
+                    Sign Out
+                </div>
+            {% else %}
+                <div class="ui labeled icon button" id="login-top-button">
+                    <i class="sign in icon"></i>
+                    Sign In
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+{% endblock %}
+<div class="ui vertical segment">
+    {% block body %}{% endblock %}
+</div>
+{% block signin %}
+    <div class="ui small modal" id="signin-modal">
+    <i class="close icon"></i>
+    <div class="content">
+        <div class="ui form">
+            {% csrf_token %}
+            <div class="field">
+                <label>username</label>
+                <input type="text" id="username">
+            </div>
+            <div class="field">
+                <label>password</label>
+                <input type="password" id="password">
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui basic button">
+            Forgot Password?
+        </div>
+        <div class="ui positive right labeled icon button" id="login-button">
+            Sign In
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('body').ready(function(){
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            var csrftoken = $.cookie('csrftoken');
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+            var signin = $('#login-top-button');
+            if(signin.length > 0){
+                $('#signin-modal').modal('setting', 'transition', 'scale')
+                        .modal('attach events', '#login-top-button', 'show')
+                        .modal({onApprove : function() {
+                            return false;
+                        }});
+
+                $('#login-button').click(function(e){
+                    $.post( "{% url 'login-view' %}", { username: $('#username').val(), password: $('#password').val() }, success=function(e){
+                        if(e=="true"){
+                            location.reload();
+                        }else{
+                            var button = $('#login-button');
+                            button.removeClass('loading');
+                            button.removeClass('disabled');
+                            alert("Please check your credentials");
+                        }
+                    } );
+                    $(this).addClass('loading');
+                    $(this).addClass('disabled');
+                });
+            }
+            var logout = $('#logout-button');
+            if(logout.length > 0){
+                logout.click(function () {
+                    $.post( "{% url 'logout-view' %}", success=function(e){
+                        var cookies = $.cookie();
+for(var cookie in cookies) {
+   $.removeCookie(cookie);
+}
+                        location.reload();
+                    } );
+                    $(this).addClass('loading');
+                    $(this).addClass('disabled');
+                })
+            }
+
+        })
+    </script>
+{% endblock %}
 </body>
 </html>
