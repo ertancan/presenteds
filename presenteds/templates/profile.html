@@ -9,6 +9,18 @@
     <i class="folder outline icon"></i>
     Presenteds
   </h4>
-
+  {% for presentation in presentations %}
+    <a class="ui card" href="{% url 'detail' presentation.id %}">
+          <div class="content">
+            <div class="header">{{ presentation.name }}</div>
+            <div class="meta">
+              <span class="category">{{ presentation.category }}</span>
+            </div>
+          </div>
+          <div class="extra content">
+            <i class="comments icon"></i>{{ presentation.comment_set.count }}
+          </div>
+</a>
+{% endfor %}
 </div>
 {% endblock %}

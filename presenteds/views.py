@@ -7,12 +7,13 @@ from presenteds.models import UserProfile, Presentation, Comment
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'presentations':Presentation.objects.all().reverse()[:10]})
 
 
 def profile(request, user_id=None):
     user_profile = UserProfile.objects.get(pk=user_id)
-    return render(request, 'profile.html',{'user_profile': user_profile, 'profile_user': user_profile.user})
+    return render(request, 'profile.html',{'user_profile': user_profile, 'profile_user': user_profile.user,
+                                           'presentations':user_profile.user.presentation_set.all()})
 
 
 def detail(request, p_id=None):

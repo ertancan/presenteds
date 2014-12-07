@@ -16,7 +16,7 @@
     <div class="ui vertical segment ">
         <div class="ui right aligned segment">
             {% if user.is_authenticated %}
-                {{ user.username }}
+                <a href="{% url 'profile' user.profile.pk %}">{{ user.username }}</a>
                 <div class="ui labeled icon button" id="logout-top-button">
                     <i class="sign out icon"></i>
                     Sign Out

@@ -10,6 +10,25 @@
     <input name="file" type="file" multiple />
   </div>
 </form>
+</div>
+    <div class="ui segment">
+    <div class="ui centered header">
+        <h3>Latest Presenteds</h3>
+    </div>
+      {% for presentation in presentations %}
+    <a class="ui card" href="{% url 'detail' presentation.id %}">
+          <div class="content">
+            <div class="header">{{ presentation.name }}</div>
+            <div class="meta">
+              <span class="category">{{ presentation.category }}</span>
+            </div>
+          </div>
+          <div class="extra content">
+            <i class="comments icon"></i>{{ presentation.comment_set.count }}
+          </div>
+</a>
+{% endfor %}
+    </div>
 <script type="text/javascript">
 Dropzone.options.drop = {
   paramName: "file", // The name that will be used to transfer the file
@@ -31,5 +50,5 @@ $(function() {
 
 })
 </script>
-</div>
+
 {% endblock %}

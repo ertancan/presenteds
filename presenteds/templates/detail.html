@@ -19,8 +19,15 @@
 
                     </div>
                 </div>
+            </div>
+        <div class="ui row">
+            <div class="ui four wide column"></div>
+            <div class="ui eight wide column compact segment">
+                owner: <a href="{% url 'profile' owner_profile.pk %}">{{ owner.username }}</a><br/>
+                views: {{ presented.view_count }}
 
             </div>
+        </div>
             <div class="ui row">
                 <div class="ui two wide column">
 
@@ -42,7 +49,7 @@
                 <div class="ui four wide column">
 
                 </div>
-                <div class="ui nine wide column" style=" height: 100px">
+                <div class="ui nine wide column">
                     {% if user.is_authenticated  %}
                         <div class="ui input" style="width: 440px">
                             <input type="text" placeholder="Leave a comment" id="comment-text">
@@ -120,7 +127,7 @@
                 $.post( "{% url 'comment' %}",{'presented':"{{ presented.pk }}", 'text':textBox.val(), 'slide':$('#slide').val()}, success=function(e){
                     if(e=="true"){
                         var textBox = $('#comment-text');
-                        addComment(textBox.val());
+                        addComment(textBox.val(), $('#slide').val());
                         textBox.val("");
                         textBox.prop('disabled', false);
                         var button = $('#send-comment-button');
@@ -139,10 +146,10 @@
                 layoutMode: 'vertical'
             });
         });
-        function addComment(text){
+        function addComment(text, slide){
             var vertical = $('<div/>',{
-                class: 'ui vertical segment'
-            }).appendTo('#comments');
+                class: 'ui vertical segment iso-item'
+            });
             var owner = $('<div/>',{
                 class: 'comment-owner'
             }).appendTo(vertical);
@@ -152,6 +159,12 @@
             $('<span/>',{
                 text: text
             }).appendTo(vertical);
+            $('<p/>',{
+                hidden: "hidden",
+                class: 'slide-p',
+                text: slide
+            }).appendTo(vertical);
+            $commentContainer.isotope( 'insert', vertical );
             $('html, body').animate({
                 scrollTop: vertical.offset().top
             }, 1000);
@@ -167,8 +180,5 @@
             } });
         }
     </script>
-
-    {{ owner }}
-    {{ owner_profile }}
 
 {% endblock %}
