@@ -3,7 +3,19 @@
 }
 
 .dz-drag-hover{
-    background-image: url('/static/img/waiting.gif');
+    background-image: url('/static/img/baaaa.gif');
     background-repeat: no-repeat;
-    background-position: center -100px;
+    background-position: center;
+}
+#button-group{
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+.comment-owner{
+    width: 100px;
+    display: inline-block;
+}
+.iso-item{
+    display: block;
+    width: 90%;
 }

@@ -6,12 +6,17 @@ from django.db.models.signals import post_save
 class Category(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     title = models.CharField(max_length=255)
     country = CountryField()
     avatar = models.URLField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.user)+"'s profile"
 
 
 class Presentation(models.Model):
@@ -26,6 +31,9 @@ class Presentation(models.Model):
 
     create_date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return str(self.owner) + " - " + self.name
+
 
 class Comment(models.Model):
     owner = models.ForeignKey(User)
@@ -35,3 +43,21 @@ class Comment(models.Model):
     text = models.TextField()
 
     create_date = models.DateTimeField(auto_now_add=True)
+
+
+class EvaluationCriterion(models.Model):
+    name = models.CharField(max_length=100)
+
+
+class Evaluation(models.Model):
+    evaluater = models.ForeignKey(User)
+    presentation = models.ForeignKey(Presentation)
+
+    date = models.DateTimeField(auto_now_add=True)
+
+
+class CriteriaRelation(models.Model):
+    evaluation = models.ForeignKey(Evaluation)
+    criterion = models.ForeignKey(EvaluationCriterion)
+
+    point = models.PositiveSmallIntegerField()

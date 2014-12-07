@@ -1,0 +1,174 @@
+{% extends "main.html" %}
+{% load staticfiles %}
+{% block additional_heading %}
+    <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+{% endblock %}
+{% block body %}
+    <div class="ui center aligned segment">
+        <div class="ui header">
+            <h2>{{ presented.name }}</h2>
+        </div>
+        <div class="ui grid">
+            <div class="ui row">
+                <div class="ui left aligned four wide column" style="background-color: blue">
+
+                </div>
+
+                <div class="ui center aligned eight wide column" style="background-color: lightgoldenrodyellow">
+                    <div class="presentation" style="height: 300px">
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="ui row">
+                <div class="ui two wide column">
+
+                </div>
+
+                <div class="ui twelve wide column">
+                    <div class="ui small header">
+                        <h3>
+                            Comments
+                        </h3>
+                        <div id="button-group">
+                            <div class="ui button" onclick="filterPressed(0)">All</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="ui row">
+                <div class="ui four wide column">
+
+                </div>
+                <div class="ui nine wide column" style=" height: 100px">
+                    {% if user.is_authenticated  %}
+                        <div class="ui input" style="width: 440px">
+                            <input type="text" placeholder="Leave a comment" id="comment-text">
+                        </div>
+                        <span style="line-height: 26px">on</span>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="slide" id="slide">
+                            <div class="default text">Slide</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu" id="slide-dropdown-values">
+                                <div class="item" data-value="0">General</div>
+                            </div>
+                        </div>
+                        <div class="ui button" id="send-comment-button">Send</div>
+                    {% else %}
+                        <div class="ui twelve wide column">
+                            If you want to leave a comment, please <div class="ui labeled icon button" id="login-comment-button">
+                            <i class="sign in icon"></i>
+                            Sign In
+                        </div>
+                        </div>
+                        <script type="text/javascript">
+                            $('#login-comment-button').click(function(){
+                                $('#login-top-button').click();
+                            });
+                        </script>
+                    {% endif %}
+
+                    <div class="ui segment" id="comments">
+
+                        {% for comment in comments %}
+
+                            <div class="ui vertical segment iso-item">
+                                <div class="comment-owner"> <b>{{ comment.owner }}</b></div>
+                                <span>{{ comment.text }}</span>
+                                <p class="slide-p" hidden="hidden">{{ comment.slide }}</p>
+
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        $commentContainer = $('#comments');
+        function prepareCommentButtons(pageCount){
+            for(i=1; i<=pageCount;i++){
+                var container = $('#button-group');
+                $('<div/>',{
+                    class: 'ui button',
+                    text: ''+i,
+                    onclick: 'filterPressed('+i+')'
+                }).appendTo(container);
+            }
+        }
+        $('body').ready(function(){
+            prepareCommentButtons(20);
+            var drop=$('#slide-dropdown-values');
+            for(i=1;i<=20;i++){
+                $('<div/>',{
+                    class:'item',
+                    'text': ''+i,
+                    'data-value':''+i
+
+                }).appendTo(drop);
+            }
+            $('.dropdown').dropdown();
+
+            $('#send-comment-button').click(function(){
+                var textBox = $('#comment-text');
+                $.post( "{% url 'comment' %}",{'presented':"{{ presented.pk }}", 'text':textBox.val(), 'slide':$('#slide').val()}, success=function(e){
+                    if(e=="true"){
+                        var textBox = $('#comment-text');
+                        addComment(textBox.val());
+                        textBox.val("");
+                        textBox.prop('disabled', false);
+                        var button = $('#send-comment-button');
+                        button.removeClass('loading');
+                        button.removeClass('disabled');
+                    }
+                } );
+                textBox.prop('disabled', true);
+                $(this).addClass('loading');
+                $(this).addClass('disabled');
+            });
+            // init
+            $commentContainer.isotope({
+                // options
+                itemSelector: '.iso-item',
+                layoutMode: 'vertical'
+            });
+        });
+        function addComment(text){
+            var vertical = $('<div/>',{
+                class: 'ui vertical segment'
+            }).appendTo('#comments');
+            var owner = $('<div/>',{
+                class: 'comment-owner'
+            }).appendTo(vertical);
+            $('<b/>',{
+                text: "{{ user.username }}"
+            }).appendTo(owner);
+            $('<span/>',{
+                text: text
+            }).appendTo(vertical);
+            $('html, body').animate({
+                scrollTop: vertical.offset().top
+            }, 1000);
+        }
+        function filterPressed(button){
+            $commentContainer.isotope({filter:function() {
+                if(button==0){
+                    return true;
+                }
+                var number = $(this).find('.slide-p').text();
+                console.log(number);
+                return number==button;
+            } });
+        }
+    </script>
+
+    {{ owner }}
+    {{ owner_profile }}
+
+{% endblock %}

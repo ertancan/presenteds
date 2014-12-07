@@ -3,7 +3,7 @@ from models import UserProfile
 from django.contrib import auth
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from presenteds.models import UserProfile
+from presenteds.models import UserProfile, Presentation, Comment
 
 
 def index(request):
@@ -13,6 +13,28 @@ def index(request):
 def profile(request, user_id=None):
     user_profile = UserProfile.objects.get(pk=user_id)
     return render(request, 'profile.html',{'user_profile': user_profile, 'profile_user': user_profile.user})
+
+
+def detail(request, p_id=None):
+    presented = Presentation.objects.get(pk=p_id)
+    presented.view_count += 1
+    presented.save()
+    owner = presented.owner
+    owner_profile = UserProfile.objects.get(user=owner)
+    return render(request, 'detail.html', {'presented': presented, 'owner': owner, 'owner_profile':owner_profile,
+                                           'comments':presented.comment_set.all()})
+
+
+def comment(request):
+    text = request.POST['text']
+    slide = request.POST['slide']
+    presentation = request.POST['presented']
+    comment = Comment(text=text, owner=request.user, to=Presentation.objects.get(pk=presentation), slide=slide)
+    try:
+        comment.save()
+        return HttpResponse("true")
+    except Exception as e:
+        return HttpResponse(e.message)
 
 
 def login(request):
