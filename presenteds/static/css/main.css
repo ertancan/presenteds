@@ -1,3 +1,9 @@
 .orangy{
     background-color: #FAF6EC;
 }
+
+.dz-drag-hover{
+    background-image: url('/static/img/waiting.gif');
+    background-repeat: no-repeat;
+    background-position: center -100px;
+}

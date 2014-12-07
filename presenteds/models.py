@@ -14,14 +14,6 @@ class UserProfile(models.Model):
     avatar = models.URLField(null=True, blank=True)
 
 
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        profile, created = UserProfile.objects.get_or_create(user=instance)
-
-
-post_save.connect(create_user_profile, sender=User)
-
-
 class Presentation(models.Model):
     owner = models.ForeignKey(User)
     name = models.CharField(max_length=255)
