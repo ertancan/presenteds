@@ -13,7 +13,7 @@
 </head>
 <body class="pushable">
 {% block topmenu %}
-    <div class="ui vertical segment ">
+    <div class="ui vertical segment top-bar">
         <a href="{% url 'index' %}"><img class="top-logo" src="{% static 'img/logo.png' %}"></a>
         <div class="ui right aligned segment">
             {% if user.is_authenticated %}
