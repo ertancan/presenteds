@@ -33,6 +33,9 @@ body{
 .ui.card{
     display: inline-block;
 }
+.ui.button{
+    background-color: #1abc9c;
+}
 .top-bar{
     padding: 0 !important;
 }
