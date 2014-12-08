@@ -84,3 +84,9 @@ body{
     left: 150px;
     z-index: 999;
 }
+.info-text{
+    position: absolute;
+    color:rgb(84,174,166);
+    top: 250px;
+    left: 800px;
+}

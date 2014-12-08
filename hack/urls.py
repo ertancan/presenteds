@@ -9,6 +9,7 @@ from presenteds.views import detail as presenteds_detail
 from presenteds.views import comment as presenteds_comment
 from presenteds.views import upload as presenteds_upload
 from presenteds.views import new_presentation as presenteds_new_presentation
+import settings
 
 urlpatterns = patterns('',
     # Examples:
@@ -25,3 +26,8 @@ urlpatterns = patterns('',
     url(r'logout-view', presenteds_logout, name='logout-view'),
     url(r'^admin/', include(admin.site.urls)),
 )
+urlpatterns += patterns('',
+        url(r'^presentations/(?P<path>.*)$',
+            'django.views.static.serve',
+            {'document_root': settings.MEDIA_ROOT, }),
+    )
