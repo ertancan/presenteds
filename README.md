@@ -7,7 +7,7 @@ Welcome to our KGVH submission page.
 
 ## Description
 
-[![Presenteds](/images/desk.png?raw=true "Presenteds")](http://uekkbf02d1db.ertank.koding.io:8000/)
+[![Presenteds](https://koding.com/a/site.landing/images/slideshow/2x/ss-terminal.png "Presenteds")](http://uekkbf02d1db.ertank.koding.io:8000/)
 
 We build a tool for slidecasting. People upload their presentations to the site and then start presenting while we record their voice as well as how they interact with their presentations. Then other folks on the site could listen and watch the presentations and provide feedback. As they provide feedback they earn points so that they can use these points to make their presentations evaluated. 
 
