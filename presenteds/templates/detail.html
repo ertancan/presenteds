@@ -117,10 +117,10 @@
                 }).appendTo(container);
             }
         }
-        $('body').ready(function(){
-            prepareCommentButtons(20);
+        function pdfReady(pdfObj){
+            prepareCommentButtons(pdfObj.numPages);
             var drop=$('#slide-dropdown-values');
-            for(i=1;i<=20;i++){
+            for(i=1;i<=pdfObj.numPages;i++){
                 $('<div/>',{
                     class:'item',
                     'text': ''+i,
@@ -129,6 +129,8 @@
                 }).appendTo(drop);
             }
             $('.dropdown').dropdown();
+        }
+        $('body').ready(function(){
 
             $('#send-comment-button').click(function(){
                 var textBox = $('#comment-text');
@@ -275,6 +277,7 @@
      */
     PDFJS.getDocument(document.location.origin+"/"+pdfFile).then(function (pdfDoc_) {
       pdfDoc = pdfDoc_;
+        pdfReady(pdfDoc)
       document.getElementById('page_count').textContent = pdfDoc.numPages;
 
       // Initial/first page rendering

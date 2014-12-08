@@ -58,7 +58,11 @@
             uploader.fileupload({
                 dataType: 'text',
                 done: function (e, data) {
-                    location.replace("{% url 'new' 666 %}".replace("666", data.result));
+                    if(data.result == "false"){
+                        alert("Please Log In first");
+                    }else{
+                        location.replace("{% url 'new' 666 %}".replace("666", data.result));
+                    }
                 }
             });
             $('#target').click(function(){
