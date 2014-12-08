@@ -3,9 +3,7 @@
 }
 
 .dz-drag-hover{
-    background-image: url('/static/img/baaaa.gif');
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url('/static/img/baaaa.gif') no-repeat center;
 }
 #button-group{
     white-space: nowrap;
@@ -21,4 +19,38 @@
 }
 .pushable{
     background: #3d3e3a !important;
+}
+.bg{
+    height: 1029px;
+    background: url('/static/img/desc.png') no-repeat center;
+    position: relative;
+    top: -10px;
+}
+body{
+    background-color: #ffffff;
+}
+.ui.card{
+    display: inline-block;
+}
+.ui.segment{
+    padding: 0;
+}
+#woman-bg{
+    background-color: #ffffff;
+    height: 500px;
+    background: url('/static/img/woman.png') no-repeat;
+    -ms-background-position-y: -70px;
+    background-position-y: -70px;
+    background-size: cover;
+}
+.ui.card{
+    margin: 5px;
+}
+.center-logo{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    top: -30px;
+    right: 6px;
 }

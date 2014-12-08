@@ -1,4 +1,5 @@
 {% extends "main.html" %}
+{% load staticfiles %}
 {% block body %}
 <div class="ui center aligned segment">
   <h2 class="ui header">
@@ -11,6 +12,9 @@
   </h4>
   {% for presentation in presentations %}
     <a class="ui card" href="{% url 'detail' presentation.id %}">
+    <div class="image">
+        <img src="{% static 'img/card_bg.png'%}">
+      </div>
           <div class="content">
             <div class="header">{{ presentation.name }}</div>
             <div class="meta">

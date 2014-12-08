@@ -6,40 +6,48 @@
     <script src="{% static 'js/jquery.fileupload.js'%}"></script>
 {% endblock %}
 {% block body %}
-<div class="ui center aligned segment">
-    <img src="{% static 'img/baaaa.gif' %}" id="drop-gif" style="opacity: 0">
-    <form id="fileupload" name="files[]" data-url="{% url 'presentation-upload' %}" style="height: 500px" multiple>
-  {% csrf_token %}
-</form>
-<script>
-$(function () {
-    $('#fileupload').fileupload({
-        dataType: 'text',
-        done: function (e, data) {
-            location.replace("{% url 'new' 666 %}".replace("666", data.result));
-        }
-    });
-    $('#fileupload').bind('fileuploaddragover', function (e) {$('#drop-gif').fadeTo(100,1)});
-});
-</script>
-</div>
-    <div class="ui segment">
-    <div class="ui centered header">
-        <h3>Latest Presenteds</h3>
+    <div style="background-color: #50504c;height: 40px"></div>
+    <div id="woman-bg">
+        <img src="{% static 'img/baaaa.gif' %}" id="drop-gif" style="opacity: 0;position: relative;top: -10px;">
+        <form id="fileupload" name="files[]" data-url="{% url 'presentation-upload' %}" style="height: 500px" multiple>
+            {% csrf_token %}
+        </form>
     </div>
-      {% for presentation in presentations %}
-    <a class="ui card" href="{% url 'detail' presentation.id %}">
-          <div class="content">
-            <div class="header">{{ presentation.name }}</div>
-            <div class="meta">
-              <span class="category">{{ presentation.category }}</span>
-            </div>
-          </div>
-          <div class="extra content">
-            <i class="comments icon"></i>{{ presentation.comment_set.count }}
-          </div>
-</a>
-{% endfor %}
+    <div style="background-color: #50504c;height: 40px;position: relative;top:-10px"></div>
+    <div class="bg">
+        <img src="{% static 'img/logo.png' %}" class="center-logo">
     </div>
-
+    <div>
+        <div class="ui centered header">
+            <h3>Latest Presenteds</h3>
+        </div>
+        {% for presentation in presentations %}
+            <a class="ui card" href="{% url 'detail' presentation.id %}">
+                <div class="image">
+                    <img src="{% static 'img/card_bg.png'%}">
+                </div>
+                <div class="content">
+                    <div class="header">{{ presentation.name }}</div>
+                    <div class="meta">
+                        <span class="category">{{ presentation.category }}</span>
+                    </div>
+                </div>
+                <div class="extra content">
+                    <i class="comments icon"></i>{{ presentation.comment_set.count }}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    <script>
+        $(function () {
+            $('body').removeClass('pushable');
+            $('#fileupload').fileupload({
+                dataType: 'text',
+                done: function (e, data) {
+                    location.replace("{% url 'new' 666 %}".replace("666", data.result));
+                }
+            });
+            $('#fileupload').bind('fileuploaddragover', function (e) {$('#drop-gif').fadeTo(100,1)});
+        });
+    </script>
 {% endblock %}

@@ -7,7 +7,7 @@ from presenteds.models import UserProfile, Presentation, Comment, Category
 
 
 def index(request):
-    return render(request, 'index.html', {'presentations':Presentation.objects.all().reverse()[:10]})
+    return render(request, 'index.html', {'presentations':Presentation.objects.reverse().exclude(name__isnull=True)[:10]})
 
 
 def profile(request, user_id=None):
