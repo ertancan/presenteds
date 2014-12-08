@@ -75,6 +75,11 @@ def logout_view(request):
 
 
 def upload(request):
+    f = request.FILES['files[]']
+    if f.size > 20971520:  # 20mb
+        f.delete(save=True)
+        return HttpResponse("File size is too big")
+
     p = Presentation(owner=request.user, file=request.FILES['files[]'])
     p.save()
     return HttpResponse(p.pk)

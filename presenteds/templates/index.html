@@ -9,9 +9,14 @@
     <div style="background-color: #50504c;height: 40px"></div>
     <div id="woman-bg">
         <img src="{% static 'img/baaaa.gif' %}" id="drop-gif" style="opacity: 0;position: relative;top: -10px;">
-        <form id="fileupload" name="files[]" data-url="{% url 'presentation-upload' %}" style="height: 500px" multiple>
+        <div id="target">
+            <img src="{% static 'img/target.png' %}" id="target-img">
+            <div id="drop-text">Select or Drop a pdf</div>
+
+        </div>
+        <input id="fileupload" type="file" name="files[]" data-url="{% url 'presentation-upload' %}" multiple>
             {% csrf_token %}
-        </form>
+        </input>
     </div>
     <div style="background-color: #50504c;height: 40px;position: relative;top:-10px"></div>
     <div class="bg">
@@ -41,13 +46,20 @@
     <script>
         $(function () {
             $('body').removeClass('pushable');
-            $('#fileupload').fileupload({
+            var uploader = $('#fileupload');
+            uploader.fileupload({
                 dataType: 'text',
                 done: function (e, data) {
                     location.replace("{% url 'new' 666 %}".replace("666", data.result));
                 }
             });
-            $('#fileupload').bind('fileuploaddragover', function (e) {$('#drop-gif').fadeTo(100,1)});
+            $('#target').click(function(){
+                $('#fileupload').click();
+            })
+            uploader.bind('fileuploaddragover', function (e) {$('#drop-gif').fadeTo(100,1)});
+            uploader.on('dragleave', function (e) {
+                console.log("sd")
+                $('#drop-gif').fadeTo(100,0)});
         });
     </script>
 {% endblock %}

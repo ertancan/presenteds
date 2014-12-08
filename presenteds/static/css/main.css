@@ -32,7 +32,7 @@ body{
 .ui.card{
     display: inline-block;
 }
-.ui.segment{
+.ui.vertical.segment{
     padding: 0;
 }
 #woman-bg{
@@ -53,4 +53,34 @@ body{
     position: relative;
     top: -30px;
     right: 6px;
+}
+
+#target{
+    position: absolute;
+    width: 350px;
+    top: 230px;
+    left: 85px;
+    display: inline-block;
+}
+#target-img{
+    width: 100%;
+}
+#drop-text{
+    display: inline-block;
+    position: absolute;
+    left: 113px;
+    top: 70px;
+    color: #ffffff;
+}
+#fileupload{
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: 0;
+}
+.top-logo{
+    position: absolute;
+    height: 60px;
+    left: 150px;
+    z-index: 999;
 }
