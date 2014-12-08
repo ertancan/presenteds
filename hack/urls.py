@@ -7,6 +7,8 @@ from presenteds.views import login as presenteds_login
 from presenteds.views import register as presenteds_register
 from presenteds.views import detail as presenteds_detail
 from presenteds.views import comment as presenteds_comment
+from presenteds.views import upload as presenteds_upload
+from presenteds.views import new_presentation as presenteds_new_presentation
 
 urlpatterns = patterns('',
     # Examples:
@@ -16,6 +18,8 @@ urlpatterns = patterns('',
     url(r'^user/(?P<user_id>[0-9]+)$', presenteds_profile, name='profile'),
     url(r'^presented/(?P<p_id>[0-9]+)$', presenteds_detail, name='detail'),
     url(r'comment', presenteds_comment, name='comment'),
+    url(r'upload', presenteds_upload, name="presentation-upload"),
+    url(r'new-presentation/(?P<p_id>[0-9]+)$', presenteds_new_presentation, name="new"),
     url(r'login-view', presenteds_login, name='login-view'),
     url(r'register-view', presenteds_register, name='register-view'),
     url(r'logout-view', presenteds_logout, name='logout-view'),

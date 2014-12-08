@@ -1,15 +1,27 @@
 {% extends "main.html" %}
 {% load staticfiles %}
 {% block additional_heading %}
-    <script src=" {% static 'js/dropzone.js'%}"></script>
+    <script src="{% static 'js/jquery.ui.widget.js' %}"></script>
+    <script src="{% static 'js/jquery.iframe-transport.js' %}"></script>
+    <script src="{% static 'js/jquery.fileupload.js'%}"></script>
 {% endblock %}
 {% block body %}
-<div class="ui center aligned segment" id="drop">
-    <form action="/file-upload" class="dropzone dz-clickable" style="height: 500px">
-  <div class="fallback">
-    <input name="file" type="file" multiple />
-  </div>
+<div class="ui center aligned segment">
+    <img src="{% static 'img/baaaa.gif' %}" id="drop-gif" style="opacity: 0">
+    <form id="fileupload" name="files[]" data-url="{% url 'presentation-upload' %}" style="height: 500px" multiple>
+  {% csrf_token %}
 </form>
+<script>
+$(function () {
+    $('#fileupload').fileupload({
+        dataType: 'text',
+        done: function (e, data) {
+            location.replace("{% url 'new' 666 %}".replace("666", data.result));
+        }
+    });
+    $('#fileupload').bind('fileuploaddragover', function (e) {$('#drop-gif').fadeTo(100,1)});
+});
+</script>
 </div>
     <div class="ui segment">
     <div class="ui centered header">
@@ -29,26 +41,5 @@
 </a>
 {% endfor %}
     </div>
-<script type="text/javascript">
-Dropzone.options.drop = {
-  paramName: "file", // The name that will be used to transfer the file
-  maxFilesize: 5, // MB
-  url: '/file-upload',
-  init: function() {
-    this.on("dragstart", function(file) { alert("Added file."); });
-  }
-};
-$(function() {
-  // Now that the DOM is fully loaded, create the dropzone, and setup the
-  // event listeners
-
-  var drop = new Dropzone("#drop");
-
-  drop.on("dragstart", function(file) {
-    alert("asdf")
-  });
-
-})
-</script>
 
 {% endblock %}

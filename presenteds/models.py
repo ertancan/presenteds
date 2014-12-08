@@ -22,7 +22,8 @@ class UserProfile(models.Model):
 class Presentation(models.Model):
     owner = models.ForeignKey(User)
     name = models.CharField(max_length=255)
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, null=True, blank=True)
+    file = models.FileField(upload_to='presentations/', null=True, blank=True)
 
     next = models.ForeignKey('self', null=True, blank=True)
 

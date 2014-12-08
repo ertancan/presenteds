@@ -3,7 +3,7 @@ from models import UserProfile
 from django.contrib import auth
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from presenteds.models import UserProfile, Presentation, Comment
+from presenteds.models import UserProfile, Presentation, Comment, Category
 
 
 def index(request):
@@ -72,3 +72,13 @@ def register(request):
 def logout_view(request):
     auth.logout(request)
     return HttpResponse("true")
+
+
+def upload(request):
+    p = Presentation(owner=request.user, file=request.FILES['files[]'])
+    p.save()
+    return HttpResponse(p.pk)
+
+
+def new_presentation(request, p_id=None):
+    return render(request, 'new.html',{'presentation':Presentation.objects.get(pk=p_id), 'categories': Category.objects.all()})
