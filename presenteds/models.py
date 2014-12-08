@@ -25,6 +25,8 @@ class Presentation(models.Model):
     category = models.ForeignKey(Category, null=True, blank=True)
     file = models.FileField(upload_to='/', null=True, blank=True)
 
+    actions = models.TextField(null=True,blank=True)
+
     next = models.ForeignKey('self', null=True, blank=True)
 
     view_count = models.IntegerField(default=0)
